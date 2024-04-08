@@ -1,7 +1,4 @@
-import java.io.BufferedReader;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -33,15 +30,15 @@ public class Main {
        //This method blocks the server's execution until a client connects. Once a client
          //is established, accept() returns a new Socket() object
        clientSocket = serverSocket.accept(); // Wait for connection from client.
-         DataInputStream dataInputStream= new DataInputStream(clientSocket.getInputStream());
+         BufferedReader br= new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
          DataOutputStream dataOut= new DataOutputStream(clientSocket.getOutputStream());
          dataOut.writeBytes(OK_200+CLRF+EOSL);
-         String input= null;
-         while(dataInputStream.readLine() != null) {
-             input= dataInputStream.readLine();
+         String request= br.readLine();
+         String[] requestInParts= request.split(" ");
+         String path= null;
+         if(requestInParts.length > 2) {
+             path= requestInParts[1];
          }
-         String path = input.split(" ")[1];
-
          if(path.equals("/")) dataOut.writeBytes(OK_200+CLRF+EOSL);
          else dataOut.writeBytes(NOT_FOUND_404+CLRF+EOSL);
          dataOut.flush();
