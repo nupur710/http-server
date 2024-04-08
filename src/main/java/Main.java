@@ -7,6 +7,7 @@ import java.net.Socket;
 public class Main {
 
     static String OK_200= "HTTP/1.1 200 OK";
+    static String NOT_FOUND_404= "HTTP/1.1 404 OK";
     static String CLRF= "\r\n";
     static String EOSL= "\r\n";
   public static void main(String[] args) {
@@ -33,6 +34,7 @@ public class Main {
        clientSocket = serverSocket.accept(); // Wait for connection from client.
          DataInputStream dataInputStream= new DataInputStream(clientSocket.getInputStream());
          DataOutputStream dataOut= new DataOutputStream(clientSocket.getOutputStream());
+         dataOut.writeBytes(OK_200+CLRF+EOSL);
          String requestString= null;
          while(dataInputStream.read() != -1) {
              char req= (char) dataInputStream.read();
@@ -50,6 +52,8 @@ public class Main {
          String resource = parts[1];
 
          if(resource == "/") dataOut.writeBytes(OK_200+CLRF+EOSL);
+         else dataOut.writeBytes(NOT_FOUND_404+CLRF+EOSL);
+
        System.out.println("accepted new connection");
      } catch (IOException e) {
        System.out.println("IOExcep tion: " + e.getMessage());
