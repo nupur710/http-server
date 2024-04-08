@@ -8,7 +8,7 @@ import java.net.Socket;
 public class Main {
 
     static String OK_200= "HTTP/1.1 200 OK";
-    static String NOT_FOUND_404= "HTTP/1.1 404 OK";
+    static String NOT_FOUND_404= "HTTP/1.1 404 Not Found";
     static String CLRF= "\r\n";
     static String EOSL= "\r\n";
   public static void main(String[] args) {
@@ -41,13 +41,6 @@ public class Main {
              input= dataInputStream.readLine();
          }
          String path = input.split(" ")[1];
-//         String[] lines = input.split("\\r?\\n");
-//
-//         String firstLine = lines[0];
-//         String[] parts = firstLine.split("\\s+");
-//
-//         String resource = parts[1];
-//         resource= resource.substring(1);
 
          if(path == "/") dataOut.writeBytes(OK_200+CLRF+EOSL);
          else dataOut.writeBytes(NOT_FOUND_404+CLRF+EOSL);
