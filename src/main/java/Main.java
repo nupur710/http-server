@@ -11,7 +11,7 @@ public class Main {
     static String EOSL= "\r\n";
   public static void main(String[] args) {
     // You can use print statements as follows for debugging, they'll be visible when running tests.
-    System.out.println("Logs from your program will appear here!");
+      System.out.println("Logs from your program will appear here!");
 
     // Uncomment this block to pass the first stage
 
@@ -33,7 +33,7 @@ public class Main {
        clientSocket = serverSocket.accept(); // Wait for connection from client.
          DataInputStream dataInputStream= new DataInputStream(clientSocket.getInputStream());
          DataOutputStream dataOut= new DataOutputStream(clientSocket.getOutputStream());
-         dataOut.writeUTF(OK_200 + CLRF + EOSL);
+         dataOut.writeBytes(OK_200+CLRF+EOSL);
        System.out.println("accepted new connection");
      } catch (IOException e) {
        System.out.println("IOExcep tion: " + e.getMessage());
