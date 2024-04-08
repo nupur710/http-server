@@ -39,7 +39,7 @@ public class Main {
          if(requestInParts.length > 2) {
              path= requestInParts[1];
          }
-         if("/".equals(path)) dataOut.writeBytes(OK_200+CLRF+EOSL);
+         if("".equals(path)) dataOut.writeBytes(OK_200+CLRF+EOSL);
          else dataOut.writeBytes(NOT_FOUND_404+CLRF+EOSL);
          dataOut.flush();
        System.out.println("accepted new connection");
