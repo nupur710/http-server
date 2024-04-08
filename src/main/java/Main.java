@@ -51,7 +51,7 @@ public class Main {
 
          if(path == "/") dataOut.writeBytes(OK_200+CLRF+EOSL);
          else dataOut.writeBytes(NOT_FOUND_404+CLRF+EOSL);
-
+         dataOut.flush();
        System.out.println("accepted new connection");
      } catch (IOException e) {
        System.out.println("IOExcep tion: " + e.getMessage());
