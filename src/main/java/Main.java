@@ -42,7 +42,7 @@ public class Main {
          }
          String path = input.split(" ")[1];
 
-         if(path == "/") dataOut.writeBytes(OK_200+CLRF+EOSL);
+         if(path.equals("/")) dataOut.writeBytes(OK_200+CLRF+EOSL);
          else dataOut.writeBytes(NOT_FOUND_404+CLRF+EOSL);
          dataOut.flush();
        System.out.println("accepted new connection");
