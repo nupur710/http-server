@@ -50,6 +50,7 @@ public class Main {
 
          // Extract the requested resource from the second element
          String resource = parts[1];
+         resource= resource.substring(1);
 
          if(resource == "/") dataOut.writeBytes(OK_200+CLRF+EOSL);
          else dataOut.writeBytes(NOT_FOUND_404+CLRF+EOSL);
