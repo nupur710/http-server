@@ -33,7 +33,23 @@ public class Main {
        clientSocket = serverSocket.accept(); // Wait for connection from client.
          DataInputStream dataInputStream= new DataInputStream(clientSocket.getInputStream());
          DataOutputStream dataOut= new DataOutputStream(clientSocket.getOutputStream());
-         dataOut.writeBytes(OK_200+CLRF+EOSL);
+         String requestString= null;
+         while(dataInputStream.read() != -1) {
+             char req= (char) dataInputStream.read();
+             requestString= requestString + req;
+         }
+         String[] lines = requestString.split("\\r?\\n");
+
+         // Extract the first line which contains the request method and the requested resource
+         String firstLine = lines[0];
+
+         // Split the first line by spaces
+         String[] parts = firstLine.split("\\s+");
+
+         // Extract the requested resource from the second element
+         String resource = parts[1];
+
+         if(resource == "/") dataOut.writeBytes(OK_200+CLRF+EOSL);
        System.out.println("accepted new connection");
      } catch (IOException e) {
        System.out.println("IOExcep tion: " + e.getMessage());
