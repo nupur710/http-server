@@ -92,8 +92,7 @@ public class Main {
                             body);
                 }
             } else if (requestType.equals("POST") && path.contains("files")) {
-                postFile(fileName, directory, clientSocket);
-                dataOut.writeBytes(OK_200 + CLRF);
+                postFile(fileName, directory, clientSocket, dataOut);
             } else {
                 dataOut.writeBytes(NOT_FOUND_404 + CLRF + EOSL);
             }
@@ -104,7 +103,7 @@ public class Main {
         }
         }
 
-    private static void postFile(String fileName, String directory, Socket clientSocket) throws IOException {
+    private static void postFile(String fileName, String directory, Socket clientSocket, DataOutputStream dataOut) throws IOException {
         try (InputStream inputStream = clientSocket.getInputStream();
              FileOutputStream outputStream = new FileOutputStream(Paths.get(directory, fileName).toString())) {
             byte[] buffer = new byte[1024];
@@ -113,7 +112,9 @@ public class Main {
                 outputStream.write(buffer, 0, bytesRead);
             }
         }
+
         System.out.println("File uploaded successfully!");
+        dataOut.writeBytes(OK_200 + CLRF);
     }
 
         private static String getFile(String fileName, String directory) {
