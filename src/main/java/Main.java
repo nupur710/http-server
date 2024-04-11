@@ -32,8 +32,12 @@ public class Main {
             clientSocket = serverSocket.accept(); // Wait for connection from client.
             BufferedReader br= new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             DataOutputStream dataOut= new DataOutputStream(clientSocket.getOutputStream());
-            //dataOut.writeBytes(OK_200+CLRF+EOSL);
-            String request= br.readLine();
+            StringBuilder requestBuilder = new StringBuilder();
+            String line;
+            while ((line = br.readLine()) != null && !line.isEmpty()) {
+                requestBuilder.append(line).append("\r\n");
+            }
+            String request = requestBuilder.toString();
             String[] requestInParts= request.split(" ");
             String path= null;
             if(requestInParts.length > 2) {
