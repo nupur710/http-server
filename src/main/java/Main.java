@@ -80,7 +80,7 @@ public class Main {
                         "Content-Length: " + userAgent.length() + CLRF
                         + CLRF
                         + userAgent);
-            } else if (path.contains("files")) {
+            } else if (requestType.equals("GET") && path.contains("files")) {
                 String body= null;
                 if((body= getFile(fileName, directory)) == null) {
                     dataOut.writeBytes(NOT_FOUND_404 + CLRF +
@@ -93,6 +93,8 @@ public class Main {
                             "Content-Length: " + body.length() + CLRF + CLRF +
                             body);
                 }
+            } else if (requestType.equals("POST") && path.contains("files")) {
+                System.out.println("in correct block");
             } else {
                 dataOut.writeBytes(NOT_FOUND_404 + CLRF + EOSL);
             }
