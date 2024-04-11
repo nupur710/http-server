@@ -38,7 +38,7 @@ public class Main {
             for(String req: requestInParts) {
                 System.out.println("req: " + req);
             }
-            String path, userAgent = null;
+            String path = null;
             if (requestInParts.length > 1) {
                 path = requestInParts[1];
             }
