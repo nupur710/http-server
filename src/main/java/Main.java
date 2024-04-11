@@ -34,11 +34,6 @@ public class Main {
                 requestBuilder.append(line).append("\r\n");
             }
             String request = requestBuilder.toString();
-            int contentLength= 0;
-            if(request.contains("\r\n\r\n"))  { //indicates presence of request body
-                String requestbody= request.substring(request.indexOf("\r\n\r\n")+4); //find index of \r\n\r\n sequence & move past it
-                contentLength= requestbody.getBytes().length;
-            }
             String[] requestInParts = request.split(" ");
             String path = null;
             if (requestInParts.length > 1) {
@@ -48,9 +43,10 @@ public class Main {
                 dataOut.writeBytes(OK_200 + CLRF + EOSL);
             } else if (path != null && path.contains("/echo")) {
                 path = path.split("/")[2];
+                int contentLength1= path.substring(6).length();
                 dataOut.writeBytes(OK_200 + CLRF
                         + "Content-Type: text/plain" + CLRF
-                        + "Content-Length: " + contentLength + CLRF
+                        + "Content-Length: " + contentLength1 + CLRF
                         + CLRF
                         + path);
             } else {
