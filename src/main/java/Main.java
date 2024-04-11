@@ -29,15 +29,18 @@ public class Main {
             BufferedReader br= new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             DataOutputStream dataOut= new DataOutputStream(clientSocket.getOutputStream());
             String request= br.readLine();
+            System.out.println("request is " + request);
             int contentLength= 1;
             while (br.readLine() != null) {
                 contentLength++;
             }
+            System.out.println("content length is " + contentLength);
             String[] requestInParts= request.split(" ");
             String path= null;
             if(requestInParts.length > 2) {
                 path= requestInParts[1];
             }
+            System.out.println("path is " + path);
             if("/".equals(path)) dataOut.writeBytes(OK_200+CLRF+EOSL);
             else if (path.contains("/echo")) {
                 path= path.split("/")[2];
