@@ -73,8 +73,18 @@ public class Main {
                         "Content-Length: " + userAgent.length() + CLRF
                         + CLRF
                         + userAgent);
-            } else if (path.contains("directory")) {
-                System.out.println(path);
+            } else if (path.contains("files")) {
+                String body= null;
+                if((body= getFile(fileName)) == null) {
+                    dataOut.writeBytes(NOT_FOUND_404 + CLRF +
+                            "Content-Type: application/octet-stream" + CLRF +
+                            "Content-Length: 0" + CLRF + CLRF);
+                }  else {
+                    dataOut.writeBytes(OK_200 + CLRF +
+                            "Content-Type: application/octet-stream" + CLRF +
+                            "Content-Length: " + body.getBytes().length + CLRF + CLRF +
+                            body);
+                }
             } else {
                 dataOut.writeBytes(NOT_FOUND_404 + CLRF + EOSL);
             }
@@ -83,6 +93,25 @@ public class Main {
         } finally {
             clientSocket.close();
         }
+        }
+
+        private static String getFile(String fileName) {
+            File file= new File(fileName);
+            if(file.exists() && !file.isDirectory()) {
+                try {
+                    BufferedReader br = new BufferedReader(new FileReader(fileName));
+                    var string= new StringBuilder();
+                    while(br.read() != -1) {
+                        string.append( (char) br.read());
+                    }
+                    return string.toString();
+                } catch (FileNotFoundException e) {
+                    System.out.println("No such file " + e.getMessage());
+                } catch (IOException i) {
+                    System.out.println("IO exception: " + i.getMessage());
+                }
+            }
+            return null;
         }
 
 }
