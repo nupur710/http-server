@@ -20,7 +20,9 @@ public class Main {
                     String directory =
                             (args.length > 1 && args[0].equals("--directory")) ? args[1] : "./";
 
-                    System.out.println("args is " + args);
+                    for (int i = 0; i < args.length; i++) {
+                        System.out.println("Argument " + i + ": " + args[i]);
+                    }
                     Thread thread= new Thread(() -> {
                         try {
                             handleRequest(clientSocket, directory);
