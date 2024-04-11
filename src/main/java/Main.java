@@ -68,8 +68,9 @@ public class Main {
                         "Content-Length: " + userAgent.length() + CLRF
                         + CLRF
                         + userAgent);
-            }
-            else {
+            } else if (path.contains("directory")) {
+                System.out.println(path);
+            } else {
                 dataOut.writeBytes(NOT_FOUND_404 + CLRF + EOSL);
             }
             dataOut.flush();
