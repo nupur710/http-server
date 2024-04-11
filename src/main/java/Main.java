@@ -9,7 +9,11 @@ public class Main {
     static String CLRF= "\r\n";
     static String EOSL= "\r\n";
     public static void main(String[] args) {
+        // You can use print statements as follows for debugging, they'll be visible when running tests.
         System.out.println("Logs from your program will appear here!");
+
+        // Uncomment this block to pass the first stage
+
         /**
          * ServerSocket object binds itself to a particular port on server
          * machine. The port acts like an address for incoming client requests
@@ -28,27 +32,15 @@ public class Main {
             clientSocket = serverSocket.accept(); // Wait for connection from client.
             BufferedReader br= new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             DataOutputStream dataOut= new DataOutputStream(clientSocket.getOutputStream());
+            //dataOut.writeBytes(OK_200+CLRF+EOSL);
             String request= br.readLine();
-            System.out.println("request is " + request);
-            int contentLength= 1;
-            while (br.readLine() != null) {
-                contentLength++;
-            }
-            System.out.println("content length is " + contentLength);
             String[] requestInParts= request.split(" ");
             String path= null;
             if(requestInParts.length > 2) {
                 path= requestInParts[1];
             }
-            System.out.println("path is " + path);
             if("/".equals(path)) dataOut.writeBytes(OK_200+CLRF+EOSL);
-            else if (path.contains("/echo")) {
-                path= path.split("/")[2];
-                dataOut.writeBytes(OK_200+CLRF
-                        +"Content-Type: text/plain"+CLRF
-                        +"Content-Length: "+contentLength+CLRF
-                        +path);
-            } else dataOut.writeBytes(NOT_FOUND_404+CLRF+EOSL);
+            else dataOut.writeBytes(NOT_FOUND_404+CLRF+EOSL);
             dataOut.flush();
             System.out.println("accepted new connection");
         } catch (IOException e) {
