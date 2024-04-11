@@ -97,7 +97,7 @@ public class Main {
 
         private static String getFile(String fileName) {
             File file= new File(fileName);
-            if(file.exists() && !file.isDirectory()) {
+            if(file.exists()) {
                 try {
                     BufferedReader br = new BufferedReader(new FileReader(fileName));
                     var string= new StringBuilder();
