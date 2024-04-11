@@ -43,13 +43,11 @@ public class Main {
             if ("/".equals(path)) {
                 dataOut.writeBytes(OK_200 + CLRF + EOSL);
             } else if (path != null && path.contains("/echo")) {
-                path = path.split("/")[2];
+                path = path.substring(6);
                 System.out.println("new path is " +path);
-                String str= path.substring(6);
-                System.out.println("str is "+ str);
                 dataOut.writeBytes(OK_200 + CLRF
                         + "Content-Type: text/plain" + CLRF
-                        + "Content-Length: " + str.length() + CLRF
+                        + "Content-Length: " + path.length() + CLRF
                         + CLRF
                         + path);
             } else {
