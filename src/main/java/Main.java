@@ -52,7 +52,7 @@ public class Main {
             }
             if(requestInParts[1].startsWith("/files")) {
                 fileName= requestInParts[1].substring(6);
-                System.out.println("file name is " + fileName);
+                System.out.println("File name is " + fileName);
             }
             if ("/".equals(path)) {
                 dataOut.writeBytes(OK_200 + CLRF + EOSL);
