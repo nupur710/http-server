@@ -48,9 +48,12 @@ public class Main {
             String path = null;
             String userAgent= null;
             String fileName= null;
+            String requestType= null;
             if (requestInParts.length > 1) {
+                requestType= requestInParts[0];
                 path = requestInParts[1];
             }
+            System.out.println("req type is " + requestType);
             System.out.println("path is " + path);
             if(requestInParts.length > 4) {
                 userAgent= requestInParts[4].split("\\s+")[0];;
