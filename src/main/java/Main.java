@@ -135,11 +135,12 @@ public class Main {
                 try {
                     String line;
                     while((line= br.readLine()) != null) {
-                        if(reachedBody) {
-                            req.append(line).append("\n");
-                        } else if (line.isEmpty()) {
-                            reachedBody= true;
-                        }
+                        req.append(line);
+//                        if(reachedBody) {
+//                            req.append(line).append("\n");
+//                        } else if (line.isEmpty()) {
+//                            reachedBody= true;
+//                        }
                     }
                 } catch (IOException e) {
                     System.out.println("error " + e.getMessage());
