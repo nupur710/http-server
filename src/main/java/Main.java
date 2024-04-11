@@ -103,7 +103,7 @@ public class Main {
             File file= new File(Paths.get(directory, fileName).toString());
             if(file.exists()) {
                 try {
-                    BufferedReader br = new BufferedReader(new FileReader(fileName));
+                    BufferedReader br = new BufferedReader(new FileReader(file));
                     var string= new StringBuilder();
                     while(br.read() != -1) {
                         string.append( (char) br.read());
