@@ -42,7 +42,7 @@ public class Main {
             System.out.println("path is " +path);
             if ("/".equals(path)) {
                 dataOut.writeBytes(OK_200 + CLRF + EOSL);
-            } else if (path != null && path.contains("/echo")) {
+            } else if (path.contains("/echo")) {
                 path = path.substring(6);
                 System.out.println("new path is " +path);
                 dataOut.writeBytes(OK_200 + CLRF
@@ -50,7 +50,10 @@ public class Main {
                         + "Content-Length: " + path.length() + CLRF
                         + CLRF
                         + path);
-            } else {
+            } else if(path.contains("/user-agent")) {
+                System.out.println("path is " + path);
+            }
+            else {
                 dataOut.writeBytes(NOT_FOUND_404 + CLRF + EOSL);
             }
             dataOut.flush();
