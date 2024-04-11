@@ -39,6 +39,7 @@ public class Main {
             DataOutputStream dataOut= new DataOutputStream(clientSocket.getOutputStream());)
         {
             StringBuilder requestBuilder = new StringBuilder();
+            System.out.println("req from source " + requestBuilder.toString());
             String line;
             while ((line = br.readLine()) != null && !line.isEmpty()) {
                 requestBuilder.append(line).append("\r\n");
@@ -95,8 +96,8 @@ public class Main {
                             body);
                 }
             } else if (requestType.equals("POST") && path.contains("files")) {
-                String requestBody= extractRequestBody(br);
-                System.out.println("req body ext is " + requestBody);
+                //String requestBody= extractRequestBody(br);
+                //System.out.println("req body ext is " + requestBody);
                 System.out.println("in correct block");
             } else {
                 dataOut.writeBytes(NOT_FOUND_404 + CLRF + EOSL);
@@ -128,37 +129,11 @@ public class Main {
             }
             return null;
         }
-
-    private static String extractRequestBody(BufferedReader clientReader)
-            throws IOException {
-        StringBuilder request = new StringBuilder();
-        int bodyLength = 0;
-        String header = null;
-        while ((header = clientReader.readLine()) != null && clientReader.ready()) {
-            if (header.length() > 14 && header.contains("Content-Length")) {
-                bodyLength = Integer.parseInt(header.split(":")[1].trim());
-                break;
-            }
-        }
-        StringBuilder remainingRequest = new StringBuilder();
-        int c = -1;
-        char[] bodyContent = new char[bodyLength];
-        while ((c = clientReader.read()) != -1) {
-            char ch = (char) c;
-            remainingRequest.append(ch);
-            if (remainingRequest.length() >= 4 &&
-                    remainingRequest.substring(remainingRequest.length() - 4)
-                            .equals("\r\n\r\n")) {
-                clientReader.read(bodyContent);
-                break;
-            }
-        }
-        StringBuilder requestBody = new StringBuilder();
-        for (char ch : bodyContent) {
-            requestBody.append(ch);
-        }
-        return requestBody.toString();
-    }
+//
+//    private static String extractRequestBody(BufferedReader br)
+//            throws IOException {
+//        String[] requestLines= br.
+//    }
 }
 
 
