@@ -87,7 +87,7 @@ public class Main {
                     System.out.println("to send ok");
                     dataOut.writeBytes(OK_200 + CLRF +
                             "Content-Type: application/octet-stream" + CLRF +
-                            "Content-Length: " + body.getBytes().length + CLRF + CLRF +
+                            "Content-Length: " + body.length() + CLRF + CLRF +
                             body);
                 }
             } else {
@@ -106,9 +106,10 @@ public class Main {
                 try {
                     System.out.println("true! file exists");
                     BufferedReader br = new BufferedReader(new FileReader(file));
+                    int character= 0;
                     var string= new StringBuilder();
-                    while(br.read() != -1) {
-                        string.append( (char) br.read());
+                    while((character=br.read()) != -1) {
+                        string.append( (char) character);
                     }
                     return string.toString();
                 } catch (FileNotFoundException e) {
