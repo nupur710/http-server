@@ -142,6 +142,7 @@ public class Main {
 //                            reachedBody= true;
 //                        }
                     }
+                    System.out.println("req cc " + req);
                 } catch (IOException e) {
                     System.out.println("error " + e.getMessage());
                 } return req.toString().trim();
