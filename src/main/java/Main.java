@@ -47,11 +47,12 @@ public class Main {
             if (requestInParts.length > 1) {
                 path = requestInParts[1];
             }
+            System.out.println("path is " + path);
             if(requestInParts.length > 4) {
                 userAgent= requestInParts[4].split("\\s+")[0];;
             }
             if(requestInParts[1].startsWith("/files")) {
-                fileName= requestInParts[1].substring(6);
+                fileName= requestInParts[1].substring(7);
                 System.out.println("File name is " + fileName);
             }
             if ("/".equals(path)) {
