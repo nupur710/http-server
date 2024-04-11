@@ -129,23 +129,9 @@ public class Main {
         }
 
         private static String extractRequestBody(String content) {
-                var req= new StringBuilder();
-                BufferedReader br= new BufferedReader(new StringReader(req.toString()));
-                boolean reachedBody= false;
-                try {
-                    String line;
-                    while((line= br.readLine()) != null) {
-                        req.append(line);
-//                        if(reachedBody) {
-//                            req.append(line).append("\n");
-//                        } else if (line.isEmpty()) {
-//                            reachedBody= true;
-//                        }
-                    }
-                    System.out.println("req cc " + req);
-                } catch (IOException e) {
-                    System.out.println("error " + e.getMessage());
-                } return req.toString().trim();
+            String[] parts = content.split("\\r?\\n\\r?\\n");
+            return parts.length > 1 ? parts[1] : "";
+        }
         }
 
 }
