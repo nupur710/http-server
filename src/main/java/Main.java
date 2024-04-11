@@ -15,10 +15,12 @@ public class Main {
         ServerSocket serverSocket = null;
         Socket clientSocket = null;
         try {
-            serverSocket = new ServerSocket(4221);
-            serverSocket.setReuseAddress(true);
-            clientSocket = serverSocket.accept();
-            handleRequest(clientSocket);
+            while(true) {
+                serverSocket = new ServerSocket(4221);
+                serverSocket.setReuseAddress(true);
+                clientSocket = serverSocket.accept();
+                handleRequest(clientSocket);
+            }
         } catch (IOException e) {
             System.out.println("IOExcep tion: " + e.getMessage());
         }
