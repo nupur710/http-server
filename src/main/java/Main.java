@@ -44,6 +44,7 @@ public class Main {
                 requestBuilder.append(line).append("\r\n");
             }
             String request = requestBuilder.toString();
+            getFileContent(request);
             String[] requestInParts = request.split(" ");
             String path = null;
             String userAgent= null;
@@ -124,6 +125,13 @@ public class Main {
                 }
             }
             return null;
+        }
+
+        private static void getFileContent(String content) {
+                String[] con= content.split("\r\n");
+                for(String x : con) {
+                    System.out.println("check " + x);
+                }
         }
 
 }
