@@ -11,18 +11,22 @@ public class Main {
     public static void main(String[] args) {
         System.out.println("Logs from your program will appear here!");
 
-
-        ServerSocket serverSocket = null;
-        Socket clientSocket = null;
         try {
-            while(true) {
-                serverSocket = new ServerSocket(4221);
+                ServerSocket serverSocket = new ServerSocket(4221);
                 serverSocket.setReuseAddress(true);
-                clientSocket = serverSocket.accept();
-                handleRequest(clientSocket);
-            }
+                while (true) {
+                    final Socket clientSocket = serverSocket.accept();
+                    Thread thread= new Thread(() -> {
+                        try {
+                            handleRequest(clientSocket);
+                        } catch (IOException e) {
+                            System.out.println("Error handling request " + e.getMessage());
+                        }
+                    }); thread.start();
+                }
+
         } catch (IOException e) {
-            System.out.println("IOExcep tion: " + e.getMessage());
+            System.out.println("IOException: " + e.getMessage());
         }
     }
 
