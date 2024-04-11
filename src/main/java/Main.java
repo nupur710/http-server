@@ -1,6 +1,7 @@
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.http.HttpRequest;
 import java.nio.file.Paths;
 
 public class Main {
@@ -99,9 +100,8 @@ public class Main {
                             body);
                 }
             } else if (requestType.equals("POST") && path.contains("files")) {
-                //String requestBody= extractRequestBody(br);
-                //System.out.println("req body ext is " + requestBody);
-                System.out.println("in correct block");
+                System.out.println("for post file name is " + fileName);
+                postFile(fileName, directory);
             } else {
                 dataOut.writeBytes(NOT_FOUND_404 + CLRF + EOSL);
             }
@@ -110,6 +110,10 @@ public class Main {
         } finally {
             clientSocket.close();
         }
+        }
+
+        private static void postFile(String fileName, String directory) {
+
         }
 
         private static String getFile(String fileName, String directory) {
@@ -132,11 +136,7 @@ public class Main {
             }
             return null;
         }
-//
-//    private static String extractRequestBody(BufferedReader br)
-//            throws IOException {
-//        String[] requestLines= br.
-//    }
+
 }
 
 
