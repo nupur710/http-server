@@ -39,6 +39,7 @@ public class Main {
             if (requestInParts.length > 1) {
                 path = requestInParts[1];
             }
+            System.out.println("path is " +path);
             if ("/".equals(path)) {
                 dataOut.writeBytes(OK_200 + CLRF + EOSL);
             } else if (path != null && path.contains("/echo")) {
