@@ -35,7 +35,10 @@ public class Main {
             }
             String request = requestBuilder.toString();
             String[] requestInParts = request.split(" ");
-            String path = null;
+            for(String req: requestInParts) {
+                System.out.println("req: " + req);
+            }
+            String path, userAgent = null;
             if (requestInParts.length > 1) {
                 path = requestInParts[1];
             }
