@@ -21,10 +21,6 @@ public class Main {
                     final Socket clientSocket = serverSocket.accept();
                     String directory =
                             (args.length > 1 && args[0].equals("--directory")) ? args[1] : "./";
-
-                    for (int i = 0; i < args.length; i++) {
-                        System.out.println("Argument " + i + ": " + args[i]);
-                    }
                     Thread thread= new Thread(() -> {
                         try {
                             handleRequest(clientSocket, directory);
@@ -44,13 +40,11 @@ public class Main {
             DataOutputStream dataOut= new DataOutputStream(clientSocket.getOutputStream());)
         {
             StringBuilder requestBuilder = new StringBuilder();
-            System.out.println("req from source " + requestBuilder.toString());
             String line;
             while ((line = br.readLine()) != null && !line.isEmpty()) {
                 requestBuilder.append(line).append("\r\n");
             }
             String request = requestBuilder.toString();
-            System.out.println("request is " + request);
             String[] requestInParts = request.split(" ");
             String path = null;
             String userAgent= null;
@@ -60,14 +54,11 @@ public class Main {
                 requestType= requestInParts[0];
                 path = requestInParts[1];
             }
-            System.out.println("req type is " + requestType);
-            System.out.println("path is " + path);
             if(requestInParts.length > 4) {
                 userAgent= requestInParts[4].split("\\s+")[0];;
             }
             if(requestInParts[1].startsWith("/files")) {
                 fileName= requestInParts[1].substring(7);
-                System.out.println("File name is " + fileName);
             }
             if ("/".equals(path)) {
                 dataOut.writeBytes(OK_200 + CLRF + EOSL);
