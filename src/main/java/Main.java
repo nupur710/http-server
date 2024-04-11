@@ -29,13 +29,23 @@ public class Main {
             BufferedReader br= new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             DataOutputStream dataOut= new DataOutputStream(clientSocket.getOutputStream());
             String request= br.readLine();
+            int contentLength= 1;
+            while (br.readLine() != null) {
+                contentLength++;
+            }
             String[] requestInParts= request.split(" ");
             String path= null;
             if(requestInParts.length > 2) {
                 path= requestInParts[1];
             }
             if("/".equals(path)) dataOut.writeBytes(OK_200+CLRF+EOSL);
-            else dataOut.writeBytes(NOT_FOUND_404+CLRF+EOSL);
+            else if (path.contains("/echo")) {
+                path= path.split("/")[2];
+                dataOut.writeBytes(OK_200+CLRF
+                        +"Content-Type: text/plain"+CLRF
+                        +"Content-Length: "+contentLength+CLRF
+                        +path);
+            } else dataOut.writeBytes(NOT_FOUND_404+CLRF+EOSL);
             dataOut.flush();
             System.out.println("accepted new connection");
         } catch (IOException e) {
