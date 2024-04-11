@@ -96,7 +96,7 @@ public class Main {
                 }
             } else if (requestType.equals("POST") && path.contains("files")) {
                 String requestBody= extractRequestBody(br);
-                System.out.println("req body is " + requestBody);
+                System.out.println("req body ext is " + requestBody);
                 System.out.println("in correct block");
             } else {
                 dataOut.writeBytes(NOT_FOUND_404 + CLRF + EOSL);
