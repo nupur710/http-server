@@ -1,8 +1,6 @@
-import javax.sound.midi.Soundbank;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.http.HttpRequest;
 import java.nio.file.Paths;
 
 public class Main {
@@ -15,21 +13,32 @@ public class Main {
         System.out.println("Logs from your program will appear here!");
 
         try {
-                ServerSocket serverSocket = new ServerSocket(4221);
-                serverSocket.setReuseAddress(true);
-                while (true) {
-                    final Socket clientSocket = serverSocket.accept();
-                    String directory =
-                            (args.length > 1 && args[0].equals("--directory")) ? args[1] : "./";
-                    Thread thread= new Thread(() -> {
+            ServerSocket serverSocket = new ServerSocket(4221);
+            serverSocket.setReuseAddress(true);
+
+            int requestCounter = 0; // track requests
+
+            while (true) {
+                final Socket clientSocket = serverSocket.accept();
+                requestCounter++;
+
+                String directory =
+                        (args.length > 1 && args[0].equals("--directory")) ? args[1] : "./";
+
+                // Start a new thread only if server recieves multiple requests
+                if (requestCounter > 1) {
+                    Thread thread = new Thread(() -> {
                         try {
                             handleRequest(clientSocket, directory);
                         } catch (IOException e) {
                             System.out.println("Error handling request " + e.getMessage());
                         }
-                    }); thread.start();
+                    });
+                    thread.start();
+                } else {
+                    handleRequest(clientSocket, directory);
                 }
-
+            }
         } catch (IOException e) {
             System.out.println("IOException: " + e.getMessage());
         }
