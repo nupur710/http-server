@@ -95,7 +95,7 @@ public class Main {
                             body);
                 }
             } else if (requestType.equals("POST") && path.contains("files")) {
-                String requestBody= extractRequestBody(request);
+                String requestBody= extractRequestBody(br);
                 System.out.println("req body is " + requestBody);
                 System.out.println("in correct block");
             } else {
@@ -129,11 +129,36 @@ public class Main {
             return null;
         }
 
-        private static String extractRequestBody(String content) {
-
-            String[] parts = content.split("\\r?\\n\\r?\\n");
-            return parts.length > 1 ? parts[1] : "";
+    private static String extractRequestBody(BufferedReader clientReader)
+            throws IOException {
+        StringBuilder request = new StringBuilder();
+        int bodyLength = 0;
+        String header = null;
+        while ((header = clientReader.readLine()) != null && clientReader.ready()) {
+            if (header.length() > 14 && header.contains("Content-Length")) {
+                bodyLength = Integer.parseInt(header.split(":")[1].trim());
+                break;
+            }
         }
+        StringBuilder remainingRequest = new StringBuilder();
+        int c = -1;
+        char[] bodyContent = new char[bodyLength];
+        while ((c = clientReader.read()) != -1) {
+            char ch = (char) c;
+            remainingRequest.append(ch);
+            if (remainingRequest.length() >= 4 &&
+                    remainingRequest.substring(remainingRequest.length() - 4)
+                            .equals("\r\n\r\n")) {
+                clientReader.read(bodyContent);
+                break;
+            }
+        }
+        StringBuilder requestBody = new StringBuilder();
+        for (char ch : bodyContent) {
+            requestBody.append(ch);
+        }
+        return requestBody.toString();
+    }
 }
 
 
