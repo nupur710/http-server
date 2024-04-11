@@ -55,9 +55,11 @@ public class Main {
                         + path);
             } else if(path.contains("/user-agent")) {
                 path = path.substring(6);
+                System.out.println("path is " +path);
+                System.out.println("user agent is " + userAgent);
                 dataOut.writeBytes(OK_200+ CLRF +
                         "Content-Type: text/plain" + CLRF +
-                        "Content-Length: " + path.length() + CLRF
+                        "Content-Length: " + userAgent.length() + CLRF
                         + CLRF
                         + userAgent);
             }
