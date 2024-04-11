@@ -34,14 +34,19 @@ public class Main {
          String[] requestInParts= request.split(" ");
          String path= null;
          if(requestInParts.length > 2) {
-             path= requestInParts[1].split("/")[2];
+             path= requestInParts[1];
          }
-         dataOut.writeBytes(OK_200+CLRF
-                 +"Content-Type: text/plain"+CLRF
-                 +"Content-Length: "+contentLength+CLRF
-                 +path);
-//         if("/".equals(path)) dataOut.writeBytes(OK_200+CLRF+EOSL);
-//         else dataOut.writeBytes(NOT_FOUND_404+CLRF+EOSL);
+
+         if("/".equals(path)) dataOut.writeBytes(OK_200+CLRF+EOSL);
+         else if(path.contains("/echo")) {
+             path= path.split("/")[2];
+             dataOut.writeBytes(OK_200+CLRF
+                     +"Content-Type: text/plain"+CLRF
+                     +"Content-Length: "+contentLength+CLRF
+                     +path);
+         } else {
+             dataOut.writeBytes(NOT_FOUND_404+CLRF+EOSL);
+         }
          dataOut.flush();
        System.out.println("accepted new connection");
      } catch (IOException e) {
