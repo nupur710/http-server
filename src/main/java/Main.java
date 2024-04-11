@@ -1,6 +1,7 @@
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.file.Paths;
 
 public class Main {
 
@@ -16,9 +17,11 @@ public class Main {
                 serverSocket.setReuseAddress(true);
                 while (true) {
                     final Socket clientSocket = serverSocket.accept();
+                    String directory =
+                            (args.length > 1 && args[0].equals("--directory")) ? args[1] : "./";
                     Thread thread= new Thread(() -> {
                         try {
-                            handleRequest(clientSocket);
+                            handleRequest(clientSocket, String directory);
                         } catch (IOException e) {
                             System.out.println("Error handling request " + e.getMessage());
                         }
@@ -30,7 +33,7 @@ public class Main {
         }
     }
 
-    private static void handleRequest(Socket clientSocket) throws IOException {
+    private static void handleRequest(Socket clientSocket, String directory) throws IOException {
         try(BufferedReader br= new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             DataOutputStream dataOut= new DataOutputStream(clientSocket.getOutputStream());)
         {
@@ -75,7 +78,7 @@ public class Main {
                         + userAgent);
             } else if (path.contains("files")) {
                 String body= null;
-                if((body= getFile(fileName)) == null) {
+                if((body= getFile(fileName, directory)) == null) {
                     dataOut.writeBytes(NOT_FOUND_404 + CLRF +
                             "Content-Type: application/octet-stream" + CLRF +
                             "Content-Length: 0" + CLRF + CLRF);
@@ -95,8 +98,8 @@ public class Main {
         }
         }
 
-        private static String getFile(String fileName) {
-            File file= new File(fileName);
+        private static String getFile(String fileName, String directory) {
+            File file= new File(Paths.get(directory, fileName).toString());
             if(file.exists()) {
                 try {
                     BufferedReader br = new BufferedReader(new FileReader(fileName));
