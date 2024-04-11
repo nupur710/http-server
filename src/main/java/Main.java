@@ -21,7 +21,7 @@ public class Main {
                             (args.length > 1 && args[0].equals("--directory")) ? args[1] : "./";
                     Thread thread= new Thread(() -> {
                         try {
-                            handleRequest(clientSocket, String directory);
+                            handleRequest(clientSocket, directory);
                         } catch (IOException e) {
                             System.out.println("Error handling request " + e.getMessage());
                         }
