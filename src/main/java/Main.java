@@ -84,6 +84,7 @@ public class Main {
                             "Content-Type: application/octet-stream" + CLRF +
                             "Content-Length: 0" + CLRF + CLRF);
                 }  else {
+                    System.out.println("to send ok");
                     dataOut.writeBytes(OK_200 + CLRF +
                             "Content-Type: application/octet-stream" + CLRF +
                             "Content-Length: " + body.getBytes().length + CLRF + CLRF +
@@ -103,6 +104,7 @@ public class Main {
             File file= new File(Paths.get(directory, fileName).toString());
             if(file.exists()) {
                 try {
+                    System.out.println("true! file exists");
                     BufferedReader br = new BufferedReader(new FileReader(file));
                     var string= new StringBuilder();
                     while(br.read() != -1) {
