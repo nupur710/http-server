@@ -1,3 +1,4 @@
+import javax.sound.midi.Soundbank;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -100,8 +101,8 @@ public class Main {
                             body);
                 }
             } else if (requestType.equals("POST") && path.contains("files")) {
-                System.out.println("for post file name is " + fileName);
-                postFile(fileName, directory);
+                postFile(fileName, directory, br);
+                dataOut.writeBytes(OK_200 + CLRF);
             } else {
                 dataOut.writeBytes(NOT_FOUND_404 + CLRF + EOSL);
             }
@@ -112,8 +113,17 @@ public class Main {
         }
         }
 
-        private static void postFile(String fileName, String directory) {
-
+        private static void postFile(String fileName, String directory, BufferedReader br) {
+            try {
+                BufferedWriter bw= new BufferedWriter(new FileWriter(Paths.get(directory, fileName).toString()));
+                String line;
+                while ((line= br.readLine()) != null && !line.isEmpty()) {
+                    bw.write(line);
+                    bw.newLine();
+                }
+            } catch (IOException e) {
+                System.out.println("Error writing: " + e.getMessage());
+            }
         }
 
         private static String getFile(String fileName, String directory) {
