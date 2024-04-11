@@ -121,7 +121,6 @@ public class Main {
             File file= new File(Paths.get(directory, fileName).toString());
             if(file.exists()) {
                 try {
-                    System.out.println("true! file exists");
                     BufferedReader br = new BufferedReader(new FileReader(file));
                     int character= 0;
                     var string= new StringBuilder();
