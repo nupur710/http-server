@@ -43,12 +43,18 @@ public class Main {
             String[] requestInParts = request.split(" ");
             String path = null;
             String userAgent= null;
+            String fileName= null;
             if (requestInParts.length > 1) {
                 path = requestInParts[1];
             }
             if(requestInParts.length > 4) {
                 userAgent= requestInParts[4].split("\\s+")[0];;
             }
+
+            for(String str : requestInParts) {
+                System.out.println("reqq : " + str);
+            }
+
             System.out.println("userAGent is " +userAgent);
             if ("/".equals(path)) {
                 dataOut.writeBytes(OK_200 + CLRF + EOSL);
