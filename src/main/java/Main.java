@@ -128,7 +128,7 @@ public class Main {
         }
 
         private static void getFileContent(String content) {
-                String[] con= content.split("\r\n");
+                String[] con= content.split("\r\n\r\n");
                 for(String x : con) {
                     System.out.println("check " + x);
                 }
