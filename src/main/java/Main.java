@@ -35,19 +35,19 @@ public class Main {
             }
             String request = requestBuilder.toString();
             String[] requestInParts = request.split(" ");
-            for(String req: requestInParts) {
-                System.out.println("req: " + req);
-            }
             String path = null;
+            String userAgent= null;
             if (requestInParts.length > 1) {
                 path = requestInParts[1];
             }
-            System.out.println("path is " +path);
+            if(requestInParts.length > 4) {
+                userAgent= requestInParts[4];
+            }
+            System.out.println("userAGent is " +userAgent);
             if ("/".equals(path)) {
                 dataOut.writeBytes(OK_200 + CLRF + EOSL);
             } else if (path.contains("/echo")) {
                 path = path.substring(6);
-                System.out.println("new path is " +path);
                 dataOut.writeBytes(OK_200 + CLRF
                         + "Content-Type: text/plain" + CLRF
                         + "Content-Length: " + path.length() + CLRF
