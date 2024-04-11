@@ -44,6 +44,7 @@ public class Main {
                 requestBuilder.append(line).append("\r\n");
             }
             String request = requestBuilder.toString();
+            System.out.println("request is " + request);
             String[] requestInParts = request.split(" ");
             String path = null;
             String userAgent= null;
@@ -129,6 +130,7 @@ public class Main {
         }
 
         private static String extractRequestBody(String content) {
+
             String[] parts = content.split("\\r?\\n\\r?\\n");
             return parts.length > 1 ? parts[1] : "";
         }
