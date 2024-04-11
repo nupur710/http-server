@@ -44,7 +44,6 @@ public class Main {
                 requestBuilder.append(line).append("\r\n");
             }
             String request = requestBuilder.toString();
-            getFileContent(request);
             String[] requestInParts = request.split(" ");
             String path = null;
             String userAgent= null;
@@ -95,6 +94,8 @@ public class Main {
                             body);
                 }
             } else if (requestType.equals("POST") && path.contains("files")) {
+                String requestBody= extractRequestBody(request);
+                System.out.println("req body is " + requestBody);
                 System.out.println("in correct block");
             } else {
                 dataOut.writeBytes(NOT_FOUND_404 + CLRF + EOSL);
@@ -127,11 +128,22 @@ public class Main {
             return null;
         }
 
-        private static void getFileContent(String content) {
-                String[] con= content.split("\r\n\r\n");
-                for(String x : con) {
-                    System.out.println("check " + x);
-                }
+        private static String extractRequestBody(String content) {
+                var req= new StringBuilder();
+                BufferedReader br= new BufferedReader(new StringReader(req.toString()));
+                boolean reachedBody= false;
+                try {
+                    String line;
+                    while((line= br.readLine()) != null) {
+                        if(reachedBody) {
+                            req.append(line).append("\n");
+                        } else if (line.isEmpty()) {
+                            reachedBody= true;
+                        }
+                    }
+                } catch (IOException e) {
+                    System.out.println("error " + e.getMessage());
+                } return req.toString().trim();
         }
 
 }
