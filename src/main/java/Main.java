@@ -9,11 +9,7 @@ public class Main {
     static String CLRF= "\r\n";
     static String EOSL= "\r\n";
   public static void main(String[] args) {
-    // You can use print statements as follows for debugging, they'll be visible when running tests.
       System.out.println("Logs from your program will appear here!");
-
-    // Uncomment this block to pass the first stage
-
       /**
        * ServerSocket object binds itself to a particular port on server
        * machine. The port acts like an address for incoming client requests
@@ -31,16 +27,21 @@ public class Main {
          //is established, accept() returns a new Socket() object
        clientSocket = serverSocket.accept(); // Wait for connection from client.
          BufferedReader br= new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+         int contentLength= 0;
+         while(br.readLine()!= null) contentLength++;
          DataOutputStream dataOut= new DataOutputStream(clientSocket.getOutputStream());
-         //dataOut.writeBytes(OK_200+CLRF+EOSL);
          String request= br.readLine();
          String[] requestInParts= request.split(" ");
          String path= null;
          if(requestInParts.length > 2) {
-             path= requestInParts[1];
+             path= requestInParts[1].split("/")[2];
          }
-         if("/".equals(path)) dataOut.writeBytes(OK_200+CLRF+EOSL);
-         else dataOut.writeBytes(NOT_FOUND_404+CLRF+EOSL);
+         dataOut.writeBytes(OK_200+CLRF
+                 +"Content-Type: text/plain"+CLRF
+                 +"Content-Length: "+contentLength+CLRF
+                 +path);
+//         if("/".equals(path)) dataOut.writeBytes(OK_200+CLRF+EOSL);
+//         else dataOut.writeBytes(NOT_FOUND_404+CLRF+EOSL);
          dataOut.flush();
        System.out.println("accepted new connection");
      } catch (IOException e) {
