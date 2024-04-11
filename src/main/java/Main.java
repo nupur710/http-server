@@ -44,6 +44,7 @@ public class Main {
                 dataOut.writeBytes(OK_200 + CLRF + EOSL);
             } else if (path != null && path.contains("/echo")) {
                 path = path.split("/")[2];
+                System.out.println("new path is " +path);
                 String str= path.substring(6);
                 System.out.println("str is "+ str);
                 dataOut.writeBytes(OK_200 + CLRF
