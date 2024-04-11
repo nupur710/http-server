@@ -19,6 +19,7 @@ public class Main {
                     final Socket clientSocket = serverSocket.accept();
                     String directory =
                             (args.length > 1 && args[0].equals("--directory")) ? args[1] : "./";
+                    System.out.println("directory is " + directory);
                     Thread thread= new Thread(() -> {
                         try {
                             handleRequest(clientSocket, directory);
