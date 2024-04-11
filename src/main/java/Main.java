@@ -114,7 +114,7 @@ public class Main {
         }
 
         System.out.println("File uploaded successfully!");
-        dataOut.writeBytes(OK_200 + CLRF);
+        dataOut.writeBytes(OK_200 + CLRF + CLRF);
     }
 
         private static String getFile(String fileName, String directory) {
