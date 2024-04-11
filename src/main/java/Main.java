@@ -41,7 +41,7 @@ public class Main {
                 path = requestInParts[1];
             }
             if(requestInParts.length > 4) {
-                userAgent= requestInParts[4];
+                userAgent= requestInParts[4].split(" ")[0];
             }
             System.out.println("userAGent is " +userAgent);
             if ("/".equals(path)) {
