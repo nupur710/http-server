@@ -50,12 +50,10 @@ public class Main {
             if(requestInParts.length > 4) {
                 userAgent= requestInParts[4].split("\\s+")[0];;
             }
-
-            for(String str : requestInParts) {
-                System.out.println("reqq : " + str);
+            if(requestInParts[1].startsWith("/files")) {
+                fileName= requestInParts[1].substring(6);
+                System.out.println("file name is " + fileName);
             }
-
-            System.out.println("userAGent is " +userAgent);
             if ("/".equals(path)) {
                 dataOut.writeBytes(OK_200 + CLRF + EOSL);
             } else if (path.contains("/echo")) {
